@@ -40,3 +40,8 @@ nav>p{
     display: inline-block;
 }
 
+#file-list {
+	background-color: #1E1E1E;
+	border-radius: 20px;
+	border: 2px white dashed;
+}
