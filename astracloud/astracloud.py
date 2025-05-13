@@ -3,6 +3,7 @@ import os
 
 # konstruktor
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 
 # tworzenie folderu magazynującego
 # to docelowo może być podkatalogiem użytkownika
