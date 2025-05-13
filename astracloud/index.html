@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pl-PL">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstraCloud</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <header>
+        <div class="head">
+            <h1>AstraCloud</h1>
+            <img src="static/img/astra.jpg" alt="astra" width="100">
+        </div>
+        <nav>
+            <p>Home</p>
+            <p>Account</p>
+            <p>Login</p>
+            <p>Register</p>
+        </nav>
+    </header>
+    <main>
+        <h2>Wyślij plik</h2>
+        <input type="file" id="fileInput">
+        <button onclick="uploadFile()">Wyślij</button>
+        <p id="status"></p>
+	<h2>Lista plików</h2>
+        <script src="static/script.js"></script>
+	<div id="file-list"></div>
+    </main>
+    <footer></footer>
+</body>
+</html>
