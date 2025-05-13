@@ -9,9 +9,17 @@ header {
     padding-left: 15px;
 }
 
+main {
+	padding: 10px;
+}
+
 nav {
     padding-left: 10px;
     padding-right: 10px;
+}
+
+li::marker {
+	color: white;
 }
 
 nav>p {
