@@ -19,10 +19,6 @@ function uploadFile() {
     xhr.send(formData);
 }
 
-document.getElementById("loginButton").onclick = function(){
-    
-}
-
 fetch('/files')
   .then(res => res.json())
   .then(files => {
