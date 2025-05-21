@@ -72,3 +72,42 @@ nav>p{
 #file-list > ul > li > a:link{
     color: white;
 }
+
+.myForm{
+    background-color: #1E1E1E;
+    margin-top: 10px;
+    box-shadow: 1px 1px 5px rgba(169, 169, 169, 0.274);
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+    width: 30%;
+    margin: auto;
+    border-radius: 5px;
+    text-align: left; /* keep text left-aligned */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* center children horizontally */
+}
+
+form > input, form > label {
+    text-align: left;
+    margin-top: 5px;
+}
+
+form > input{
+    color: black;
+}
+
+.indexMain{
+    width: 60%;
+    background-color: #1E1E1E;
+    padding: 20px;
+    margin: auto;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px rgba(169, 169, 169, 0.274);
+}
+
+.indexMain ul li{
+    color: white;
+    font-weight: bold;
+}
