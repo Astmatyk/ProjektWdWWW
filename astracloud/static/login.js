@@ -22,7 +22,9 @@ loginForm.addEventListener("submit", async function(event) {
         const data = await response.json();
 
         if (data.token) {
+            const expiry = Date.now() + 60 * 60 * 1000;
             localStorage.setItem('authToken', data.token);
+            localStorage.setItem('tokenExpiry', expiry.toString());
             console.log("Zalogowano, token:", data.token);
             window.location.href = "/account.html";
         } else {

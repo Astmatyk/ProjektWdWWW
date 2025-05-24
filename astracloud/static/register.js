@@ -2,7 +2,7 @@ registerForm.addEventListener("submit", async function(event) {
     event.preventDefault();
 
     const formLogin = document.getElementById("loginData").value.trim();
-    const formEmail = document.getElementById("email").value.trim();
+    const formEmail = document.getElementById("login").value.trim();
     const formPassword = document.getElementById("password").value;
     const formPasswordRepeat = document.getElementById("password1").value;
 
