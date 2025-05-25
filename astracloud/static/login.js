@@ -36,5 +36,3 @@ loginForm.addEventListener("submit", async function(event) {
         document.getElementById("jsCode").innerHTML = "Coś poszło nie tak, spróbuj ponownie.";
     }
 });
-
-

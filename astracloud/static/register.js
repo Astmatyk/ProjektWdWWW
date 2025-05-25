@@ -1,8 +1,8 @@
 registerForm.addEventListener("submit", async function(event) {
     event.preventDefault();
 
-    const formLogin = document.getElementById("loginData").value.trim();
-    const formEmail = document.getElementById("login").value.trim();
+    const formLogin = document.getElementById("login").value.trim();
+    const formEmail = document.getElementById("email").value.trim();
     const formPassword = document.getElementById("password").value;
     const formPasswordRepeat = document.getElementById("password1").value;
 
@@ -12,13 +12,26 @@ registerForm.addEventListener("submit", async function(event) {
     console.log("Password:", formPassword);
     console.log("Password - repeat:", formPasswordRepeat);
 
+    if(formPassword === formPasswordRepeat){
+        document.getElementById("jsRegister").innerHTML = "";
+        try {
+            const response = await fetch('/api/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: formEmail, login: formLogin, password: formPassword })
+            });
+            if (response.ok) {
+                document.getElementById("jsRegister").innerHTML = "Zarejestrowano pomyślnie!";
+            }
+            else {
+                document.getElementById("jsRegister").innerHTML = "Błąd rejestracji!";
+            }
+        } catch (error) {
+            document.getElementById("jsRegister").innerHTML = "Błąd rejestracji!";
+        }
+    }
+    else{
+        document.getElementById("jsRegister").innerHTML = "Hasła nie są takie same!";
+    }
+
 });
-
-
-/* //register.js
-
-Pobranie danych
-Walidacja powtarzanego hasła i reszty danych
-Zwracanie stosownych komunikatów i np. czyszczenie pól hasłowych przy błędzie, albo sprawdzanie na bieżąco czy błąd nie występuje, a także
-
-*/

@@ -41,5 +41,29 @@ def serve_index():
 def serve_construction():
     return send_from_directory('', 'temp.html')
 
+@app.route('/login')
+def serve_index():
+    return send_from_directory('', 'login.html')
+
+@app.route('/register')
+def serve_index():
+    return send_from_directory('', 'register.html')
+
+@app.route('/account')
+def serve_index():
+    return send_from_directory('', 'account.html')
+
+@app.route('/profile')
+def serve_index():
+    return send_from_directory('', 'profile.html')
+
+@app.route('/accountfail')
+def serve_index():
+    return send_from_directory('', 'accountNoEntry.html')
+
+@app.route('/logout')
+def serve_index():
+    return send_from_directory('', 'logout.html')
+
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1')
