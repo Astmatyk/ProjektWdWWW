@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AstraCloud</title>
     <link rel="stylesheet" href="static/style.css">
+    <script src="static/auth.js"></script>
 </head>
 <body>
     <header>
@@ -19,23 +20,21 @@
             <p id="logoutHeaderAction"><a href="logout">Wyloguj</a></p>
         </nav>
     </header>
-    <main>
-        <div class="indexMain">
-            <h2>Witamy w Astra Cloud! Najlepszej i anonimowej usłudze dysku w chmurze</h2>
-            <p>Usługa dumnie wspierana przez dwa wątki procesora AMD EPYC 7551</p>
-            <ul>
-                <li>Bezpieczeństwo</li>
-                <p>Podążamy za ideologią Keep It Stupid Simple - prosty kod to mniej punktów ataku</p>
-                <li>Szyfrowanie plików</li>
-                <p>może kiedyś</p>
-                <li>Konta użytkowników</li>
-                <p>możesz się logować i wylogowywać!</p>
-                <li>Nowoczesny design</li>
-                <p>Podążamy za najnowszymi trendami designu webowego</p>
-                <li>Powered by python</li>
-                <p>Pancerny backend w potencjalnie najlepszym i najwolniejszym języku programowania dla maksimum bezpieczeństwa</p>
-            </ul>
-        </div>
+    <main class="myForm">
+        <form id="registerForm" method="POST">
+            <label for="email">Adres e-mail:</label><br>
+            <input type="email" name="email" id="email" required><br>
+            <label for="login">Login:</label><br>
+            <input type="login" name="login" id="login" required><br>
+            <label for="password">Hasło:</label><br>
+            <input type="password" name="password" id="password" required minlength=8><br>
+            <label for="password1">Powtórz hasło:</label><br>
+            <input type="password" name="password1" id="password1" required minlength=8><br>
+            <button type="submit">Zarejestruj</button>
+            <script src="static/register.js"></script>
+        </form>
+        <div id="jsCode"></div>
+        <p>Masz konto? Naciśnij <a href="login">tutaj</a></p>
     </main>
     <footer>
         <p>Copyright ©astracloud 2025</p>

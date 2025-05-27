@@ -1,8 +1,18 @@
+/* style ogólne */
 body {
     font-family: sans-serif;
     background-color: #121212;
 }
 
+main {
+	padding: 10px;
+}
+
+h1, p, h2, input {
+    color: #E0E0E0;
+}
+
+/* header strony */
 header {
     background-color: #1E1E1E;
     padding-top: 5px;
@@ -11,17 +21,19 @@ header {
     box-shadow: 1px 1px 50px rgba(169, 169, 169, 0.274);
 }
 
-main {
-	padding: 10px;
+.head>* {
+    display: inline-block;
+    padding: 5px;
 }
 
+/* pasek nawigacyjny */
 nav {
     padding-left: 10px;
     padding-right: 10px;
 }
 
-li::marker {
-	color: white;
+nav>p {
+    display: inline-block;
 }
 
 nav>p a {
@@ -46,29 +58,139 @@ nav>p:hover a {
     padding: 7px;
 }
 
-.head>* {
+#logoutHeaderAction {
+    display: none;
+}
+
+/* main */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.uploaderDialog {
+    width: 20%;
+}
+
+#uploadButton {
+    background-color: rgb(62, 52, 158);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    padding: 10px 20px 10px 20px;
+    margin: 10px;
+}
+
+#uploadButton:hover {
+    background-color: rgb(56, 47, 139);
+}
+
+.filelistDialog {
+    width: 80%;
+}
+
+@media (orientation: portrait), (max-width: 768px) {
+    .uploaderDialog,
+    .filelistDialog {
+        width: 100%;
+    }
+}
+
+#asc, #desc {
+    cursor: pointer;
+    color: white;
+}
+
+#asc:hover, #desc:hover {
+    transition: color 0.3s ease;
+}
+
+/* lista plików */
+.flcontainer {
+    border-radius: 20px;
+	border: 2px rgb(48, 48, 48) solid;
+    padding: 20px;
+}
+
+.flheader>* {
     display: inline-block;
-    padding: 5px;
 }
 
-h1, p, h2, input {
-    color: #E0E0E0;
+.flheader>.white {
+    color: white;
 }
 
-nav>p{
-    display: inline-block;
+.filelist {
+	padding-top: 10px;
 }
 
-#file-list {
-	background-color: #1E1E1E;
-	border-radius: 20px;
-	border: 2px white dashed;
+.filelist a:link{
+    color: white;
 }
 
-#file-list > ul > li > a:visited{
+.filelist a:visited{
     color: gray;
 }
 
-#file-list > ul > li > a:link{
+li::marker {
+	color: white;
+}
+
+.listItem {
+    padding: 10px 20px 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    background-color: #1E1E1E;
+    transition: background-color 0.3s ease;
+}
+
+.listItem:hover {
+    background-color: #323232;
+}
+
+/* formularz */
+.myForm{
+    background-color: #1E1E1E;
+    margin-top: 10px;
+    box-shadow: 1px 1px 5px rgba(169, 169, 169, 0.274);
     color: white;
+    font-weight: bold;
+    padding: 10px;
+    width: 30%;
+    margin: auto;
+    border-radius: 5px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form > input, form > label {
+    text-align: left;
+    margin-top: 5px;
+}
+
+form > input{
+    color: black;
+}
+
+#jsCode {
+    padding: 10px;
+}
+
+/* strona główna */
+.indexMain{
+    width: 60%;
+    background-color: #1E1E1E;
+    padding: 20px;
+    margin: auto;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px rgba(169, 169, 169, 0.274);
+}
+
+.indexMain ul li{
+    color: white;
+    font-weight: bold;
 }
