@@ -15,19 +15,42 @@
         <nav>
             <p><a href="astracloud">Strona główna</a></p>
             <p><a href="account">Dysk</a></p>
-            <p><a href="profile">Profil</a></p>
-            <p id="profileLogout"><a href="logout">Wyloguj się</a></p>
+            <p id="loginHeaderAction"><a href="login">Logowanie</a></p>
+            <p id="registerHeaderAction"><a href="register">Rejestracja</a></p>
+            <p id="logoutHeaderAction"><a href="logout">Wyloguj</a></p>
         </nav>
     </header>
     <main>
-        <h2>Wyślij plik</h2>
-        <input type="file" id="fileInput">
-        <button onclick="uploadFile()">Wyślij</button>
-        <p id="status"></p>
-	<h2>Lista plików</h2>
-	<div id="file-list"></div>
+        <div class="container">
+            <div class="uploaderDialog">
+                <h2>Wyślij plik</h2>
+                <input type="file" id="fileInput">
+                <button id="uploadButton">Wyślij</button>
+                <span id="status"></span>
+            </div>
+            <div class="filelistDialog">
+                <h2>Lista plików</h2>
+                <div class="flcontainer">
+                    <div class="flheader">
+                        <span class="white"><strong>Sortuj:</strong></span>
+                        <span id="asc"> rosnąco </span>
+                        <span id="desc"> malejąco </span>
+                        <br><br>
+                        <span class="white"><strong>Szukaj: </strong></span>
+                        <form id="sForm">
+                            <input type="text" name="search" id="searchInput" placeholder="nazwa...">
+                            <button type="submit" id="submitButton">Szukaj</button>
+                        </form>
+                    </div>
+                    <div class="filelist"></div>
+                </div>
+            </div>
+        </div>
     </main>
-    <footer></footer>
+    <footer>
+        <p>Copyright ©astracloud 2025</p>
+    </footer>
     <script src="static/script.js"></script>
+    <script src="static/headerHandler.js"></script>
 </body>
 </html>

@@ -1,16 +1,45 @@
+const token = localStorage.getItem('authToken');
+const user = localStorage.getItem('user');
+
+const ascObj = document.getElementById('asc');
+const descObj = document.getElementById('desc');
+
+const uploadBtn = document.getElementById('uploadButton');
+const uploadForm = document.getElementById('fileInput');
+
+// const searchBtn = document.getElementById('submitButton');
+const searchInput = document.getElementById('searchInput');
+const searchForm = document.getElementById('sForm');
+
+let fileList = [];
+let sortMode = 0;
+let uploading = 0;
+
+// uploadowanie
 function uploadFile() {
-    const file = document.getElementById('fileInput').files[0];
+    const file = uploadForm.files[0];
     if (!file) return;
 
+    console.log("Rozpoczynam przesyłanie...");
+    uploading = 1;
+
+    // zmieńmy to na fetch w wolnej chwili
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', '/upload');
+    xhr.open('POST', '/api/upload');
+
+    // uploadujemy tylko jak mamy token
+    const token = localStorage.getItem('authToken');
+    if (token) {
+        xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+    }
 
     xhr.onload = function() {
-        const status = document.getElementById('status');
         if (xhr.status == 200) {
-            status.textContent = 'Upload successful!';
+            window.location.href = "/account";
         } else {
-            status.textContent = 'Upload failed.';
+            uploadBtn.innerHTML = 'Błąd!';
+            console.log("Błąd przesyłania: "+xhr.status);
+            uploading = 0;
         }
     };
 
@@ -19,9 +48,130 @@ function uploadFile() {
     xhr.send(formData);
 }
 
-fetch('/files')
-  .then(res => res.json())
-  .then(files => {
-    const list = files.map(file => `<li><a href="https://ipad.lineage-22-20250401-unofficial-a70q.zip/uploads/${file.name}">${file.name}</a></li>`).join('');
-    document.getElementById('file-list').innerHTML = `<ul>${list}</ul>`;
-  });
+// usuwanie!
+function deleteFile(fileId, button) {
+    console.log("Usuwam ID " + fileId);
+    const token = localStorage.getItem('authToken');
+    //backend sprawdza poprawność tokenu i wychwyca śmieszne ../
+    fetch('/api/delete', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ id: fileId })
+    })
+    .then(res => res.json())
+    .then(result => {
+        if (result.status === 'ok') {
+            button.closest('.listItem').remove();
+        } else {
+            console.log("Błąd usuwania " + result.message);
+            alert('Błąd: ' + result.message);
+        }
+    });
+}
+
+// lista plikow, budowanie html
+function buildList(fileList) {
+    //dla kazdego pliku generujemy div'a
+    const html = fileList.map(file => `
+        <div class="listItem" data-id="${file.id}">
+            <a href="/uploads/${user}/${file.name}">${file.name}</a>
+            <button class="deleteButton" data-id="${file.id}">Usuń</button>
+        </div>
+    `).join('');
+    document.querySelector('.filelist').innerHTML = `${html}`;
+
+    //dodajemy eventy dla kazdego przycisku usuwania
+    document.querySelectorAll('.deleteButton').forEach(button => {
+        button.addEventListener('click', () => {
+            const id = button.dataset.id;
+            deleteFile(id, button);
+        });
+    });
+}
+
+// sortowanie
+
+function sortList(fileList, sortMode) {
+    const newlist = fileList.slice();
+
+    //sortowanie rosnąco edycja javascript
+    function asc(a, b) {
+        if (a.name < b.name) return -1;
+        if (a.name > b.name) return 1;
+        return 0;
+    }
+
+    //sortowanie malejąco edycja javascript
+    function desc(a, b) {
+        if (a.name > b.name) return -1;
+        if (a.name < b.name) return 1;
+        return 0;
+    }
+
+    //oczywiste
+    switch (sortMode) {
+        case 0:
+            newlist.sort(asc);
+            ascObj.style.color = 'white';
+            descObj.style.color = 'grey';
+            break;
+        case 1:
+            newlist.sort(desc);
+            ascObj.style.color = 'grey';
+            descObj.style.color = 'white';
+            break;
+    }
+    return newlist;
+}
+
+function searchList(searchString) {
+    //backend sprawdza poprawność tokenu i usera zakodowanego w tokenie
+    fetch(`/api/search?search=${encodeURIComponent(searchString)}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+        .then(res => res.json())
+            .then(files => {
+                fileList = files;
+                //sortujemy i budujemy div
+                fileList = sortList(fileList, sortMode);
+                buildList(fileList);
+            })
+    return fileList;
+}
+
+// main
+const fetchUrl = '/api/files/'+user;
+fetch(fetchUrl, {
+    headers: {
+    'Authorization': `Bearer ${token}`
+    }
+}).then(res => res.json())
+        .then(files => {
+            fileList = files;
+            fileList = sortList(fileList, sortMode);
+            buildList(fileList);
+        })
+
+// eventy rozmaite
+uploadBtn.addEventListener('click', () => {
+    if (!uploading && document.getElementById('fileInput').files[0] != undefined) {
+        uploadFile();
+        uploadBtn.innerHTML = 'Przesyłanie...';
+    }
+});
+ascObj.addEventListener('click', () => {
+    buildList(sortList(fileList, 0));
+})
+descObj.addEventListener('click', () => {
+    buildList(sortList(fileList, 1));
+})
+searchForm.addEventListener('input', function(event) {
+    event.preventDefault();
+    console.log("Search: "+searchInput.value);
+    buildList(searchList(searchInput.value));
+});

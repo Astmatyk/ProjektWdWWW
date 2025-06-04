@@ -13,25 +13,26 @@ registerForm.addEventListener("submit", async function(event) {
     console.log("Password - repeat:", formPasswordRepeat);
 
     if(formPassword === formPasswordRepeat){
-        document.getElementById("jsRegister").innerHTML = "";
+        document.getElementById("jsCode").innerHTML = "";
         try {
             const response = await fetch('/api/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: formEmail, login: formLogin, password: formPassword })
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: formEmail, login: formLogin, password: formPassword })
             });
+            const data = await response.json();
             if (response.ok) {
-                document.getElementById("jsRegister").innerHTML = "Zarejestrowano pomyślnie!";
+                document.getElementById("jsCode").innerHTML = "Zarejestrowano pomyślnie!";
             }
             else {
-                document.getElementById("jsRegister").innerHTML = "Błąd rejestracji!";
+                document.getElementById("jsCode").innerHTML = data.error;
             }
         } catch (error) {
-            document.getElementById("jsRegister").innerHTML = "Błąd rejestracji!";
+            document.getElementById("jsCode").innerHTML = "Błąd rejestracji!";
         }
     }
     else{
-        document.getElementById("jsRegister").innerHTML = "Hasła nie są takie same!";
+        document.getElementById("jsCode").innerHTML = "Hasła nie są takie same!";
     }
 
 });

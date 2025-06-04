@@ -1,22 +1,30 @@
-const token = localStorage.getItem("authToken");
-const expiry = parseInt(localStorage.getItem("tokenExpiry"), 10);
-const now = Date.now();
-const path = window.location.pathname;
+const auth_token = localStorage.getItem("authToken");
+const auth_expiry = parseInt(localStorage.getItem("tokenExpiry"), 10);
+const auth_now = Date.now();
+const auth_path = window.location.pathname;
 
-const isValid = token && expiry && now < expiry;
+// valid gdy mamy authtoken i gdy ten nie przeterminował się jeszcze
+const isValid = auth_token && auth_expiry && auth_now < auth_expiry;
 
-if (path === "logout") {
+// usuwamy ciastko przy wylogowaniu
+if (auth_path === "/logout") {
         localStorage.removeItem("authToken");
         localStorage.removeItem("tokenExpiry");
-        window.location.href = "login";
+        localStorage.removeItem("user");
+        window.location.href = "/login";
     }
 
+// skipujemy login i register
 if (isValid) {
-    if (path === "login" || path === "register") {
-        window.location.href = "account";
+    console.log(auth_path);
+    if (auth_path == "/login" || auth_path == "/register") {
+        window.location.href = "/account";
     }
 } else {
-    if (path === "account") {
-        window.location.href = "accountfail";
+    if (auth_path === "/account") {
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("tokenExpiry");
+        localStorage.removeItem("user");
+        window.location.href = "/accountfail";
     }
 }

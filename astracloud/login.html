@@ -15,23 +15,27 @@
         <nav>
             <p><a href="astracloud">Strona główna</a></p>
             <p><a href="account">Dysk</a></p>
-            <p><a href="login">Logowanie</a></p>
-            <p><a href="register">Rejestracja</a></p>
+            <p id="loginHeaderAction"><a href="login">Logowanie</a></p>
+            <p id="registerHeaderAction"><a href="register">Rejestracja</a></p>
+            <p id="logoutHeaderAction"><a href="logout">Wyloguj</a></p>
         </nav>
     </header>
     <main class="myForm">
         <form id="loginForm" method="POST">
             <legend>Logowanie</legend><br>
             <label for="loginData">Adres e-mail lub login:</label><br>
-            <input type="text" name="loginData" id="loginData" required/><br>
+            <input type="text" name="loginData" id="loginData" required /><br>
             <label for="password">Hasło:</label><br>
-            <input type="password" name="password" id="password" required minlength="8"><br>
+            <input type="password" name="password" id="password" required minlength="6" /><br>
             <button type="submit">Zaloguj</button><br>
+            <script src="static/login.js"></script>
         </form>
         <div id="jsCode"></div>
         <p>Nie masz konta? Naciśnij <a href="register">tutaj</a></p>
     </main>
-    <footer></footer>
-    <script src="static/login.js"></script>
+    <footer>
+        <p>Copyright ©astracloud 2025</p>
+    </footer>
+    <script src="static/headerHandler.js"></script>
 </body>
 </html>
