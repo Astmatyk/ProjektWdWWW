@@ -71,9 +71,9 @@ def register():
             return jsonify({"error": "Login już istnieje"}), 400
         if user['email'] == email:
             return jsonify({"error": "Email już istnieje"}), 400
-        if user['password'] == password:
+        #if user['password'] == password:
             #mały trol
-            return jsonify({"error": f"Hasło jest już używane przez użytkownika {user['login']}"}), 400
+            #return jsonify({"error": f"Hasło jest już używane przez użytkownika {user['login']}"}), 400
 
     # super baza
     USERS.append({
