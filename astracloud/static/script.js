@@ -15,6 +15,20 @@ let fileList = [];
 let sortMode = 0;
 let uploading = 0;
 
+function fetchList() {
+    const fetchUrl = '/api/files/'+user;
+    fetch(fetchUrl, {
+        headers: {
+        'Authorization': `Bearer ${token}`
+        }
+    }).then(res => res.json())
+            .then(files => {
+                fileList = files;
+                fileList = sortList(fileList, sortMode);
+                buildList(fileList);
+            })
+}
+
 // uploadowanie
 function uploadFile() {
     const file = uploadForm.files[0];
@@ -35,10 +49,18 @@ function uploadFile() {
 
     xhr.onload = function() {
         if (xhr.status == 200) {
-            window.location.href = "/account";
+            fetchList();
+            buildList(sortList(fileList, 0));
+            uploadBtn.innerHTML = 'Przesłano!';
+            setTimeout(() => {
+                uploadBtn.innerHTML = 'Wyślij';
+                uploadForm.value = null;
+                uploading = 0;
+            }, 3000)
         } else {
             uploadBtn.innerHTML = 'Błąd!';
             console.log("Błąd przesyłania: "+xhr.status);
+            uploadForm.value = null;
             uploading = 0;
         }
     };
@@ -74,6 +96,8 @@ function deleteFile(fileId, button) {
 
 // lista plikow, budowanie html
 function buildList(fileList) {
+    const flDiv = document.querySelector('.filelist');
+    flDiv.innerHTML = "<h1>Wczytywanie...</h1>";
     //dla kazdego pliku generujemy div'a
     const html = fileList.map(file => `
         <div class="listItem" data-id="${file.id}">
@@ -81,7 +105,7 @@ function buildList(fileList) {
             <button class="deleteButton" data-id="${file.id}">Usuń</button>
         </div>
     `).join('');
-    document.querySelector('.filelist').innerHTML = `${html}`;
+    flDiv.innerHTML = `${html}`;
 
     //dodajemy eventy dla kazdego przycisku usuwania
     document.querySelectorAll('.deleteButton').forEach(button => {
@@ -145,17 +169,7 @@ function searchList(searchString) {
 }
 
 // main
-const fetchUrl = '/api/files/'+user;
-fetch(fetchUrl, {
-    headers: {
-    'Authorization': `Bearer ${token}`
-    }
-}).then(res => res.json())
-        .then(files => {
-            fileList = files;
-            fileList = sortList(fileList, sortMode);
-            buildList(fileList);
-        })
+fetchList();
 
 // eventy rozmaite
 uploadBtn.addEventListener('click', () => {
