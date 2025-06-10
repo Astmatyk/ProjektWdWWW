@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify, send_from_directory
 from functools import wraps
-from werkzeug.utils import secure_filename
 import jwt
 import os
 import hashlib
@@ -172,9 +171,7 @@ def delete_file():
     filename = dehasher(id, user)
     if not filename:
         return jsonify({'status': 'error', 'message': 'ID not found'}), 404
-    
-    # zapobiegamy atakom typu ../
-    #filename = secure_filename(filename)
+
     filepath = os.path.join(UPLOAD_FOLDER, user, filename)
 
     if os.path.exists(filepath):
