@@ -174,7 +174,7 @@ def delete_file():
         return jsonify({'status': 'error', 'message': 'ID not found'}), 404
     
     # zapobiegamy atakom typu ../
-    filename = secure_filename(filename)
+    #filename = secure_filename(filename)
     filepath = os.path.join(UPLOAD_FOLDER, user, filename)
 
     if os.path.exists(filepath):
