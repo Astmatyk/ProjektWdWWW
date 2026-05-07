@@ -1,3 +1,4 @@
+const diskBtn = document.getElementById('diskHeaderAction');
 const loginBtn = document.getElementById('loginHeaderAction');
 const registerBtn = document.getElementById('registerHeaderAction');
 const logoutBtn = document.getElementById('logoutHeaderAction');
@@ -8,4 +9,5 @@ if (h_token) {
     loginBtn.style.display = 'none';
     registerBtn.style.display = 'none';
     logoutBtn.style.display = 'inline-block';
+    diskBtn.style.display = 'inline-block';
 }

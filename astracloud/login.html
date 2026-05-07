@@ -6,35 +6,36 @@
     <title>AstraCloud</title>
     <link rel="stylesheet" href="static/style.css">
     <script src="static/auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@3.6.20/dist/fetch.umd.min.js"></script>
 </head>
 <body>
     <header>
+        <div class="maintenance"><h3>W przypadku utraty dostępu do konta, należy zarejestrować się ponownie w celu odzyskania dostępu do plików.</h3></div>
         <div class="head">
             <a href="astracloud"><img src="static/img/astracloud_logo.svg" alt="astra" width="200"></a>
         </div>
         <nav>
             <p><a href="astracloud">Strona główna</a></p>
-            <p><a href="account">Dysk</a></p>
+            <p id="diskHeaderAction"><a href="account">Dysk</a></p>
             <p id="loginHeaderAction"><a href="login">Logowanie</a></p>
             <p id="registerHeaderAction"><a href="register">Rejestracja</a></p>
             <p id="logoutHeaderAction"><a href="logout">Wyloguj</a></p>
         </nav>
     </header>
-    <main class="myForm">
+    <main>
+        <div class="myForm">
         <form id="loginForm" method="POST">
             <legend>Logowanie</legend><br>
-            <label for="loginData">Adres e-mail lub login:</label><br>
-            <input type="text" name="loginData" id="loginData" required /><br>
-            <label for="password">Hasło:</label><br>
-            <input type="password" name="password" id="password" required minlength="6" /><br>
+            <input type="text" name="loginData" id="loginData" placeholder="adres e-mail lub login..." required /><br>
+            <input type="password" name="password" id="password" required placeholder="hasło..." minlength="8" /><br>
             <button type="submit">Zaloguj</button><br>
-            <script src="static/login.js"></script>
+            <script src="static/main_login.js"></script>
         </form>
         <div id="jsCode"></div>
-        <p>Nie masz konta? Naciśnij <a href="register">tutaj</a></p>
+	</div>
     </main>
     <footer>
-        <p>Copyright ©astracloud 2025</p>
+        <script src="static/version.js"></script>
     </footer>
     <script src="static/headerHandler.js"></script>
 </body>

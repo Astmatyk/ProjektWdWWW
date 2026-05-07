@@ -6,6 +6,7 @@
     <title>AstraCloud</title>
     <link rel="stylesheet" href="static/style.css">
     <script src="static/auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@3.6.20/dist/fetch.umd.min.js"></script>
 </head>
 <body>
     <header>
@@ -14,7 +15,7 @@
         </div>
         <nav>
             <p><a href="astracloud">Strona główna</a></p>
-            <p><a href="account">Dysk</a></p>
+            <p id="diskHeaderAction"><a href="account">Dysk</a></p>
             <p id="loginHeaderAction"><a href="login">Logowanie</a></p>
             <p id="registerHeaderAction"><a href="register">Rejestracja</a></p>
             <p id="logoutHeaderAction"><a href="logout">Wyloguj</a></p>
@@ -25,7 +26,9 @@
             <div class="uploaderDialog">
                 <h2>Wyślij plik</h2>
                 <input type="file" id="fileInput">
+                <h6 id="maxupload">Maksymalny rozmiar: 2GB</h6>
                 <button id="uploadButton">Wyślij</button>
+                <span id="uploadBar"></span>
                 <span id="status"></span>
             </div>
             <div class="filelistDialog">
@@ -39,7 +42,6 @@
                         <span class="white"><strong>Szukaj: </strong></span>
                         <form id="sForm">
                             <input type="text" name="search" id="searchInput" placeholder="nazwa...">
-                            <button type="submit" id="submitButton">Szukaj</button>
                         </form>
                     </div>
                     <div class="filelist"></div>
@@ -48,9 +50,9 @@
         </div>
     </main>
     <footer>
-        <p>Copyright ©astracloud 2025</p>
+        <script src="static/version.js"></script>
     </footer>
-    <script src="static/script.js"></script>
+    <script src="static/main.js"></script>
     <script src="static/headerHandler.js"></script>
 </body>
 </html>

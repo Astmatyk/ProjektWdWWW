@@ -21,10 +21,12 @@ if (isValid) {
         window.location.href = "/account";
     }
 } else {
-    if (auth_path === "/account") {
+    if (auth_path === "/account" || auth_path === "/astracloud") {
         localStorage.removeItem("authToken");
         localStorage.removeItem("tokenExpiry");
         localStorage.removeItem("user");
-        window.location.href = "/accountfail";
+        if(auth_path === "/account") {
+            window.location.href = "/login";
+        }
     }
 }

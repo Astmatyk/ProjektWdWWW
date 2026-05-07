@@ -1,5 +1,6 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, redirect, url_for, jsonify, send_from_directory
 from functools import wraps
+from werkzeug.utils import secure_filename
 import jwt
 import os
 import hashlib
@@ -23,6 +24,8 @@ USERS = [
     {"email": "admin@example.com", "login": "admin", "password": "haslo123"},
     {"email": "user@example.com", "login": "uzytkownik", "password": "12345"}
 ]
+
+app.config['MAX_CONTENT_LENGTH'] = 2048 * 1024 * 1024
 
 # hasher - generuje identyfikatory
 def hasher(plik):
@@ -70,9 +73,9 @@ def register():
             return jsonify({"error": "Login już istnieje"}), 400
         if user['email'] == email:
             return jsonify({"error": "Email już istnieje"}), 400
-        #if user['password'] == password:
-            #mały trol
-            #return jsonify({"error": f"Hasło jest już używane przez użytkownika {user['login']}"}), 400
+        if user['password'] == password:
+            # mały trol
+            return jsonify({"error": f"Hasło jest już używane przez użytkownika {user['login']}"}), 400
 
     # super baza
     USERS.append({
@@ -97,7 +100,7 @@ def login():
         if user['login'] == login and user['password'] == password:
             token = jwt.encode({
                 'sub': login,
-                'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=2)
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=48)
             }, KEY, algorithm="HS256")
 
             return jsonify({'token': token})        
@@ -133,6 +136,7 @@ def list_files(user):
                     'name': filename,
                     'size': stat.st_size,
                     'extension': os.path.splitext(filename)[1].lower(),
+                    'date': stat.st_mtime,
                 })
         return jsonify(file_infos)
     except Exception as e:
@@ -170,8 +174,10 @@ def delete_file():
 
     filename = dehasher(id, user)
     if not filename:
-        return jsonify({'status': 'error', 'message': 'ID not found'}), 404
-
+        return jsonify({'status': 'error', 'message': f'{filename}'}), 404
+    
+    # zapobiegamy atakom typu ../
+    #filename = secure_filename(filename)
     filepath = os.path.join(UPLOAD_FOLDER, user, filename)
 
     if os.path.exists(filepath):
@@ -184,6 +190,14 @@ def delete_file():
 @app.route('/astracloud')
 def serve_index():
     return send_from_directory('', 'index.html')
+
+@app.route('/')
+def index():
+    return redirect(url_for('serve_index'))
+
+@app.route('/astracloud/')
+def indexslash():
+    return redirect(url_for('serve_index'))
 
 # serwowanie podstron flaskiem
 @app.route('/login')
@@ -207,4 +221,4 @@ def serve_logout():
     return send_from_directory('', 'logout.html')
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1')
+    app.run(host='127.0.0.1',port=8000)

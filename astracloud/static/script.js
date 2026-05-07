@@ -6,6 +6,7 @@ const descObj = document.getElementById('desc');
 
 const uploadBtn = document.getElementById('uploadButton');
 const uploadForm = document.getElementById('fileInput');
+const uploadBar = document.getElementById('uploadBar');
 
 // const searchBtn = document.getElementById('submitButton');
 const searchInput = document.getElementById('searchInput');
@@ -47,23 +48,52 @@ function uploadFile() {
         xhr.setRequestHeader('Authorization', `Bearer ${token}`);
     }
 
+    uploadBar.style.height = '5px';
+    uploadBar.style.width = 0;
+    uploadBtn.style.backgroundColor = 'gray';
+    uploadBtn.style.width = '110.5px';
+
+    xhr.upload.onprogress = function(e) {
+        if (e.lengthComputable) {
+            const percentComplete = Math.round((e.loaded / e.total) * 100);
+            uploadBar.style.width = (percentComplete-10) + '%';
+        }
+    };
+
     xhr.onload = function() {
         if (xhr.status == 200) {
             fetchList();
             buildList(sortList(fileList, 0));
             uploadBtn.innerHTML = 'Przesłano!';
+            uploadBtn.style.backgroundColor = 'green';
+            uploadBar.style.height = 0;
             setTimeout(() => {
                 uploadBtn.innerHTML = 'Wyślij';
+                uploadBtn.style.backgroundColor = 'purple';
+                uploadBtn.style.width = '76px';
                 uploadForm.value = null;
                 uploading = 0;
-            }, 3000)
+            }, 1000)
         } else {
             uploadBtn.innerHTML = 'Błąd!';
+            uploadBtn.style.backgroundColor = 'red';
+            uploadBtn.style.width = '76px';
+            uploadBar.style.height = 0;
             console.log("Błąd przesyłania: "+xhr.status);
             uploadForm.value = null;
             uploading = 0;
         }
     };
+
+    xhr.onerror = function() {
+        uploadBtn.innerHTML = 'Błąd!';
+        uploadBtn.style.backgroundColor = 'red';
+        uploadBtn.style.width = '76px';
+        uploadBar.style.height = 0;
+        console.log("Błąd przesyłania: błąd sieci");
+        uploadForm.value = null;
+        uploading = 0;
+    }
 
     const formData = new FormData();
     formData.append('file', file);
@@ -72,6 +102,7 @@ function uploadFile() {
 
 // usuwanie!
 function deleteFile(fileId, button) {
+    if (!confirm("Na pewno tępy chuju?")) return; 
     console.log("Usuwam ID " + fileId);
     const token = localStorage.getItem('authToken');
     //backend sprawdza poprawność tokenu i wychwyca śmieszne ../
@@ -99,12 +130,16 @@ function buildList(fileList) {
     const flDiv = document.querySelector('.filelist');
     flDiv.innerHTML = "<h1>Wczytywanie...</h1>";
     //dla kazdego pliku generujemy div'a
-    const html = fileList.map(file => `
+    const html = fileList.map(file => {
+	const readable = new Date(file.date * 1000).toLocaleString();
+        return `
+	<span id="chdate">Data modyfikacji: ${readable}</span>
         <div class="listItem" data-id="${file.id}">
-            <a href="/uploads/${user}/${file.name}">${file.name}</a>
-            <button class="deleteButton" data-id="${file.id}">Usuń</button>
+            <a href="/uploads/${user}/${file.name}">${file.name} </a>
+	    <button class="deleteButton" data-id="${file.id}">Usuń</button>
         </div>
-    `).join('');
+        `
+    }).join('');
     flDiv.innerHTML = `${html}`;
 
     //dodajemy eventy dla kazdego przycisku usuwania
@@ -117,7 +152,6 @@ function buildList(fileList) {
 }
 
 // sortowanie
-
 function sortList(fileList, sortMode) {
     const newlist = fileList.slice();
 

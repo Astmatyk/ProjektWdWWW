@@ -15,11 +15,12 @@ loginForm.addEventListener("submit", async function(event) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ login: formLogin, password: formPassword })
         });
-
+        
         if(response.ok) {
             const data = await response.json();
+            console.log(data);
             if (data.token) {
-                const expiry = Date.now() + 60 * 60 * 1000;
+                const expiry = Date.now() + 2 * 24 * 60 * 60 * 1000;
                 localStorage.setItem('authToken', data.token);
                 localStorage.setItem('tokenExpiry', expiry.toString());
                 localStorage.setItem('user', formLogin);
@@ -37,5 +38,4 @@ loginForm.addEventListener("submit", async function(event) {
         document.getElementById("jsCode").innerHTML = "Sprawdź dane logowania.";
     }
 });
-
 

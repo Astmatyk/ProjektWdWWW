@@ -14,7 +14,7 @@
         </div>
         <nav>
             <p><a href="astracloud">Strona główna</a></p>
-            <p><a href="account">Dysk</a></p>
+            <p id="diskHeaderAction"><a href="account">Dysk</a></p>
             <p id="loginHeaderAction"><a href="login">Logowanie</a></p>
             <p id="registerHeaderAction"><a href="register">Rejestracja</a></p>
             <p id="logoutHeaderAction"><a href="logout">Wyloguj</a></p>
@@ -22,6 +22,7 @@
     </header>
     <main class="myForm">
         <form id="registerForm" method="POST">
+            <legend>Rejestracja</legend><br>
             <label for="email">Adres e-mail:</label><br>
             <input type="email" name="email" id="email" required><br>
             <label for="login">Login:</label><br>
@@ -34,10 +35,9 @@
             <script src="static/register.js"></script>
         </form>
         <div id="jsCode"></div>
-        <p>Masz konto? Naciśnij <a href="login">tutaj</a></p>
     </main>
     <footer>
-        <p>Copyright ©astracloud 2025</p>
+        <script src="static/version.js"></script>
     </footer>
     <script src="static/headerHandler.js"></script>
 </body>
